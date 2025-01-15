@@ -37,23 +37,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.vargas.androidjcapi.Modelos.UsersViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-private lateinit var auth: FirebaseAuth
-@SuppressLint("StaticFieldLeak")
-private lateinit var firestore: FirebaseFirestore
+
+
 @Composable
-fun RegistroScreen(modifier: Modifier = Modifier, navController: NavController) {
-    auth = FirebaseAuth.getInstance()
-    firestore = FirebaseFirestore.getInstance()
+fun RegistroScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    viewModel: UsersViewModel = viewModel()
+) {
     var nombre by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var repeatPassword by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -70,9 +74,30 @@ fun RegistroScreen(modifier: Modifier = Modifier, navController: NavController) 
         Spacer(modifier = Modifier.height(8.dp))
         RepeatPasswordField(repeatPassword) { repeatPassword = it }
         Spacer(modifier = Modifier.height(16.dp))
-        RegistroButton(nombre, email, password, repeatPassword)
+        ElevatedButton(
+            colors = ButtonDefaults.elevatedButtonColors(containerColor = Color(0xFF6200EE)),
+            onClick = {
+                if (validacion(nombre, email, password, repeatPassword)) {
+                    viewModel.registrarDatos(nombre, email, password, context,
+                        onSuccess = { navController.navigate("login") },
+                        onFailure = { Toast.makeText(context, "Error en el registro", Toast.LENGTH_SHORT).show() })
+                } else {
+                    Toast.makeText(context, "Completa los campos correctamente", Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Registrar", color = Color.White)
+        }
     }
 }
+
+fun validacion(nombre: String, email: String, password: String, repeatPassword: String): Boolean {
+    return nombre.isNotBlank() && email.isNotBlank() &&
+            password.isNotBlank() && repeatPassword.isNotBlank() &&
+            password == repeatPassword
+}
+
 
 @Composable
 fun NombreField(value: String, onValueChange: (String) -> Unit) {
@@ -117,71 +142,10 @@ fun RepeatPasswordField(value: String, onValueChange: (String) -> Unit) {
     )
 }
 
-@Composable
-fun RegistroButton(nombre: String, email: String, password: String, repeatPassword: String) {
-    val context = LocalContext.current
-    ElevatedButton(
-        colors = ButtonDefaults.elevatedButtonColors(containerColor = Color(0xFF6200EE)),
-        onClick = {
-            if (validateInputs(nombre, email, password, repeatPassword)) {
-                registerUser(nombre, email, password, context)
-            } else {
-                Toast.makeText(context, "Completa los campos correctamente", Toast.LENGTH_SHORT).show()
-            }
-        },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = "Registrar",
-            color = Color.White
-        )
-    }
-}
-
-fun validateInputs(nombre: String, email: String, password: String, repeatPassword: String): Boolean {
-    return nombre.isNotBlank() && email.isNotBlank() &&
-            password.isNotBlank() && repeatPassword.isNotBlank() &&
-            password == repeatPassword
-}
-
-fun registerUser(nombre: String, email: String, password: String, context: android.content.Context) {
-    auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-        if (task.isSuccessful) {
-            val userId = auth.currentUser?.uid ?: ""
-            saveUserToFirestore(userId, nombre, email, context)
-        } else {
-            Toast.makeText(context, "Error en el registro: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
-}
-
-fun saveUserToFirestore(userId: String, nombre: String, email: String, context: android.content.Context) {
-    val userMap = mapOf(
-        "nombre" to nombre,
-        "email" to email,
-        "contadorAcceso" to 1,
-        "fechaIngreso" to getCurrentDateTime()
-    )
-
-    firestore.collection("usuarios").document(userId)
-        .set(userMap)
-        .addOnSuccessListener {
-            Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
-        }
-        .addOnFailureListener { e ->
-            Toast.makeText(context, "Error al guardar en Firestore: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-}
-
-fun getCurrentDateTime(): String {
-    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-    return sdf.format(Date())
-}
-
 @Preview(showBackground = true)
 @Composable
 fun RegistroScreenPreview() {
     AndroidJCApiTheme {
-        RegistroScreen( modifier = Modifier.fillMaxSize(),navController = NavController(LocalContext.current))
+        RegistroScreen(modifier = Modifier.fillMaxSize(), navController = NavController(LocalContext.current))
     }
 }
