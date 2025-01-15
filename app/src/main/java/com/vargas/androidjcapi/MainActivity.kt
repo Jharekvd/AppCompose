@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
@@ -33,11 +34,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.FirebaseAuth
 import com.vargas.androidjcapi.ui.theme.AndroidJCApiTheme
-
+private lateinit var auth: FirebaseAuth
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance()
         enableEdgeToEdge()
         setContent {
             AndroidJCApiTheme {
@@ -56,6 +59,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+    var password by rememberSaveable { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -63,29 +68,27 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        EntradaEmail()
-        EntradaPassWord()
+        EntradaEmail(email){email=it}
+        EntradaPassWord(password){password=it}
         BotonIniciarSesionConDialogo()
     }
 }
 
 @Composable
-fun EntradaEmail(){
-    var text by remember { mutableStateOf("") }
+fun EntradaEmail(email: String, onValueChange: (String) -> Unit){
+
     OutlinedTextField(
-        value = text,
-        onValueChange = { text = it },
-        label = { Text("Email") }
+        value = email,
+        onValueChange = onValueChange,
+        label = { Text("Nombre") }
     )
 
 }
 @Composable
-fun EntradaPassWord(){
-    var password by rememberSaveable { mutableStateOf("") }
-
+fun EntradaPassWord(password: String, onValueChange: (String) -> Unit){
     OutlinedTextField(
         value = password,
-        onValueChange = { password = it },
+        onValueChange = onValueChange,
         label = { Text("Password") },
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -100,27 +103,12 @@ fun BotonIniciarSesionConDialogo() {
     // Diálogo emergente
     if (mostrarDialogo) {
         DialogoRegistro(
-            onConfirm = { /* Acción al aceptar (por ejemplo, navegar a registro) */ mostrarDialogo = false },
+            onConfirm = { /* Acción al aceptar (por ejemplo, navegar a registro) */      mostrarDialogo = false },
             onDismiss = { mostrarDialogo = false }
         )
     }
 }
-@Composable
-fun BotonRegistrar() {
-    ElevatedButton(
-        onClick = { /* TODO: Implementar acción del botón */ },
-        modifier = Modifier.padding(top = 16.dp),
-        shape = MaterialTheme.shapes.small,
-        colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = Color(0xFF6200EE) // Color morado
-        )
-    ) {
-        Text(
-            text = "Iniciar Sesion",
-            color = Color.White // Texto en color blanco para buen contraste
-        )
-    }
-}
+
 @Composable
 fun BotonIniciarSesion(onClick: () -> Unit) {
     ElevatedButton(

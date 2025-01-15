@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     //kotlinx serialization
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
+    //Service Google
     id("com.google.gms.google-services")
 }
 
@@ -45,7 +46,7 @@ android {
 }
 
 dependencies {
-    //Necesario para firebase
+    //Necesario para fire
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
