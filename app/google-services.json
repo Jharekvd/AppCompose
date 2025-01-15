@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "577090734788",
+    "project_id": "androidjcapi",
+    "storage_bucket": "androidjcapi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577090734788:android:14e84973d4e6ee65219791",
+        "android_client_info": {
+          "package_name": "com.vargas.androidjcapi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZg2eMTLJ--RaGqe_Pl-U7_JNIZMllAaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

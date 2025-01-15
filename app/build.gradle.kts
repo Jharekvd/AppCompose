@@ -1,9 +1,12 @@
+import org.gradle.kotlin.dsl.libs
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     //kotlinx serialization
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -42,6 +45,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.bom)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth.ktx)
     // Kotlin serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     // Retrofit
