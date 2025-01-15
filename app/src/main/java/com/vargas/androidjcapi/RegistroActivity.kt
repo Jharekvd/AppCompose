@@ -47,6 +47,7 @@ import java.util.Date
 import java.util.Locale
 
 
+
 @Composable
 fun RegistroScreen(
     modifier: Modifier = Modifier,
@@ -141,11 +142,51 @@ fun RepeatPasswordField(value: String, onValueChange: (String) -> Unit) {
         visualTransformation = PasswordVisualTransformation()
     )
 }
-
-@Preview(showBackground = true)
+//El que vale
+@Preview(showBackground = false, showSystemUi = false)
 @Composable
 fun RegistroScreenPreview() {
     AndroidJCApiTheme {
         RegistroScreen(modifier = Modifier.fillMaxSize(), navController = NavController(LocalContext.current))
+    }
+}
+//EL de prueba
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun RegistroScreenPreview1() {
+    AndroidJCApiTheme {
+        RegistroScreenPreviewFriendly()
+    }
+}
+
+@Composable
+fun RegistroScreenPreviewFriendly(modifier: Modifier = Modifier) {
+    var nombre by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var repeatPassword by remember { mutableStateOf("") }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        NombreField(nombre) { nombre = it }
+        Spacer(modifier = Modifier.height(8.dp))
+        EmailField(email) { email = it }
+        Spacer(modifier = Modifier.height(8.dp))
+        PasswordField(password) { password = it }
+        Spacer(modifier = Modifier.height(8.dp))
+        RepeatPasswordField(repeatPassword) { repeatPassword = it }
+        Spacer(modifier = Modifier.height(16.dp))
+        ElevatedButton(
+            colors = ButtonDefaults.elevatedButtonColors(containerColor = Color(0xFF6200EE)),
+            onClick = { /* No hacer nada en el preview */ },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Registrar", color = Color.White)
+        }
     }
 }

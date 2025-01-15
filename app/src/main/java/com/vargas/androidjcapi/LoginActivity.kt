@@ -122,12 +122,77 @@ fun DialogoRegistro(onConfirm: () -> Unit, onDismiss: () -> Unit) {
         }
     )
 }
-
-@Preview(showBackground = true, showSystemUi = true)
+//No prueba
+@Preview(showBackground = false, showSystemUi =false)
 @Composable
-fun GreetingPreview() {
+fun LoginScreenPreview() {
     AndroidJCApiTheme {
         LoginScreen(modifier = Modifier.fillMaxSize(), navController = rememberNavController())
     }
 }
 
+//Prueba
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun LoginScreenPreviewPrueba() {
+    AndroidJCApiTheme {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("Hola") },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color(0xFF6200EE),
+                        titleContentColor = Color.White
+                    )
+                )
+            },
+            content = { innerPadding ->
+                LoginScreenPreviewFriendly(modifier = Modifier.padding(innerPadding))
+            },
+            NavigationBar {
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                    label = { Text("Home") },
+                    selected = true,
+                    onClick = { /* Acción para seleccionar Home */ }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
+                    label = { Text("Perfil") },
+                    selected = false,
+                    onClick = { /* Acción para seleccionar Perfil */ }
+                )
+            }
+
+
+
+        )
+    }
+}
+@Composable
+fun LoginScreenPreviewFriendly(
+    modifier: Modifier = Modifier
+) {
+    var email by remember { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        EntradaEmail(email) { email = it }
+        EntradaPassWord(password) { password = it }
+        ElevatedButton(
+            onClick = { /* No hacer nada en el preview */ },
+            modifier = Modifier.padding(top = 16.dp),
+            shape = MaterialTheme.shapes.small,
+            colors = ButtonDefaults.elevatedButtonColors(containerColor = Color(0xFF6200EE))
+        ) {
+            Text(text = "Iniciar Sesión", color = Color.White)
+        }
+    }
+}
