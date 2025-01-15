@@ -34,6 +34,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.vargas.androidjcapi.ui.theme.AndroidJCApiTheme
 private lateinit var auth: FirebaseAuth
@@ -44,13 +48,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AndroidJCApiTheme {
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .fillMaxSize()//Ocupa toda la pantalla
-                    )
+                    NavHost(
+                        navController=navController,
+                        startDestination = "login",
+                    ) {
+                        composable("login") {
+                            LoginScreen(
+                                modifier = Modifier
+                                    .padding(innerPadding)
+                                    .fillMaxSize(),//Ocupa toda la pantalla
+                                navController=navController
+                            )
+                        }
+                        composable("registro") {
+                            RegistroScreen(navController=navController)
+                        }
+                        composable("home") {
+                            Home(navController=navController)
+                        }
+                    }
+
                 }
             }
         }
@@ -58,7 +77,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun LoginScreen( modifier: Modifier = Modifier, navController: NavController) {
     var password by rememberSaveable { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     Column (
@@ -143,11 +162,19 @@ fun DialogoRegistro(onConfirm: () -> Unit, onDismiss: () -> Unit) {
         }
     )
 }
+@Composable
+fun RegistroScreen(navController: NavController){
+
+}
+@Composable
+fun Home(navController: NavController){
+
+}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
     AndroidJCApiTheme {
-        Greeting("Android")
+        LoginScreen(modifier = Modifier.fillMaxSize(), navController = rememberNavController())
     }
 }

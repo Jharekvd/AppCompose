@@ -194,23 +194,7 @@ fun getCurrentDateTime(): String {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     return sdf.format(Date())
 }
-/**
-@Composable
-fun BotonRegistrar() {
-    ElevatedButton(
-        onClick = { /* TODO: Implementar acción del botón */ },
-        modifier = Modifier.padding(top = 16.dp),
-        shape = MaterialTheme.shapes.small,
-        colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = Color(0xFF6200EE) // Color morado
-        )
-    ) {
-        Text(
-            text = "Iniciar Sesion",
-            color = Color.White // Texto en color blanco para buen contraste
-        )
-    }
-}**/
+
 @Preview(showBackground = true)
 @Composable
 fun RegistroScreenPreview() {
