@@ -45,9 +45,11 @@ android {
 }
 
 dependencies {
+    //Necesario para firebase
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
+    implementation ("com.google.firebase:firebase-firestore-ktx")
     // Kotlin serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     // Retrofit

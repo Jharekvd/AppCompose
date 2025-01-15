@@ -1,5 +1,6 @@
 package com.vargas.androidjcapi
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -36,13 +37,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+
 private lateinit var auth: FirebaseAuth
+private lateinit var firestore: FirebaseFirestore
+
 class RegistroActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
-        //enableEdgeToEdge()
+        firestore = FirebaseFirestore.getInstance() // Inicializa Firestore
         setContent {
             AndroidJCApiTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -75,9 +86,7 @@ fun RegistroScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
         RepeatPasswordField(repeatPassword) { repeatPassword = it }
         Spacer(modifier = Modifier.height(16.dp))
-        RegistroButton(password, repeatPassword)
-        //Añadir esta funcion mas adelante 
-    // auth.createUserWithEmailAndPassword(email, password)
+        RegistroButton(nombre, email, password, repeatPassword)
     }
 }
 
@@ -125,28 +134,20 @@ fun RepeatPasswordField(value: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun RegistroButton(password: String, repeatPassword: String) {
+fun RegistroButton(nombre: String, email: String, password: String, repeatPassword: String) {
     val context = LocalContext.current
-    ElevatedButton (
+    ElevatedButton(
         colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = Color(0xFF6200EE) // Color morado
+            containerColor = Color(0xFF6200EE)
         ),
-        onClick = {
-            if (password == repeatPassword && password.isNotEmpty()) {
-                Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
-            }
-        },
+        onClick = { handleRegistro(context, nombre, email, password, repeatPassword) },
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(
-            text = "Registrar",
-            color=Color.White
-        )
+        Text(text = "Registrar", color = Color.White)
     }
 }
 
+fun handleRegistro(context: Context, nombre: String, email: String, password: String, repeatPassword: String) { if (nombre.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty()) { if (password == repeatPassword) { auth.createUserWithEmailAndPassword(email, password) .addOnCompleteListener { task -> if (task.isSuccessful) { val userId = auth.currentUser?.uid val accessTime = FieldValue.serverTimestamp() val userData = hashMapOf( "nombre" to nombre, "email" to email, "contadorAcceso" to 1, "fechaAcceso" to accessTime ) if (userId != null) { firestore.collection("users").document(userId) .set(userData) .addOnSuccessListener { Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show() } .addOnFailureListener { Toast.makeText(context, "Error al guardar los datos", Toast.LENGTH_SHORT).show() } } } else { Toast.makeText(context, "Error en el registro", Toast.LENGTH_SHORT).show() } } } else { Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show() } } else { Toast.makeText(context, "Todos los campos deben estar completos", Toast.LENGTH_SHORT).show() } }
 @Preview(showBackground = true)
 @Composable
 fun RegistroScreenPreview() {
