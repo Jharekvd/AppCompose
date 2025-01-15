@@ -37,36 +37,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-
 private lateinit var auth: FirebaseAuth
 @SuppressLint("StaticFieldLeak")
 private lateinit var firestore: FirebaseFirestore
-
-class RegistroActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
-        firestore = FirebaseFirestore.getInstance()
-        enableEdgeToEdge()
-        setContent {
-            AndroidJCApiTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RegistroScreen(modifier = Modifier.padding(innerPadding))
-                }
-            }
-        }
-    }
-}
-
 @Composable
-fun RegistroScreen(modifier: Modifier = Modifier) {
+fun RegistroScreen(modifier: Modifier = Modifier, navController: NavController) {
+    auth = FirebaseAuth.getInstance()
+    firestore = FirebaseFirestore.getInstance()
     var nombre by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -199,6 +182,6 @@ fun getCurrentDateTime(): String {
 @Composable
 fun RegistroScreenPreview() {
     AndroidJCApiTheme {
-        RegistroScreen()
+        RegistroScreen( modifier = Modifier.fillMaxSize(),navController = NavController(LocalContext.current))
     }
 }
