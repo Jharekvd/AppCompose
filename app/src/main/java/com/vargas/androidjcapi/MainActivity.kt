@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -57,8 +60,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     ){
         EntradaEmail()
         EntradaPassWord()
+        BotonRegistrar()
     }
 }
+
 @Composable
 fun EntradaEmail(){
     var text by remember { mutableStateOf("") }
@@ -80,6 +85,16 @@ fun EntradaPassWord(){
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
     )
+}
+@Composable
+fun BotonRegistrar(){
+    ElevatedButton(
+        onClick = { /*TODO*/ },
+        modifier = Modifier.padding(top = 16.dp),
+        shape = MaterialTheme.shapes.small
+    ) {
+
+    }
 }
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
