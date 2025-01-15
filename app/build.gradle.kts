@@ -45,7 +45,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.firebase.bom)
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
     // Kotlin serialization
