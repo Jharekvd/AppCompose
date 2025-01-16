@@ -3,6 +3,9 @@ package com.vargas.androidjcapi
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,7 +32,7 @@ fun LoginScreen(
 ) {
     var email by remember { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    val context = LocalContext.current
+    LocalContext.current
 
     Column(
         modifier = modifier
@@ -140,36 +143,36 @@ fun LoginScreenPreviewPrueba() {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Hola") },
+                    title = { Text("Login") },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color(0xFF6200EE),
                         titleContentColor = Color.White
                     )
                 )
             },
+            bottomBar = {
+                NavigationBar {
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                        label = { Text("Home") },
+                        selected = true,
+                        onClick = { /* Acción para seleccionar Home */ }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
+                        label = { Text("Perfil") },
+                        selected = false,
+                        onClick = { /* Acción para seleccionar Perfil */ }
+                    )
+                }
+            },
             content = { innerPadding ->
                 LoginScreenPreviewFriendly(modifier = Modifier.padding(innerPadding))
-            },
-            NavigationBar {
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                    label = { Text("Home") },
-                    selected = true,
-                    onClick = { /* Acción para seleccionar Home */ }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
-                    label = { Text("Perfil") },
-                    selected = false,
-                    onClick = { /* Acción para seleccionar Perfil */ }
-                )
             }
-
-
-
         )
     }
 }
+//Prueba
 @Composable
 fun LoginScreenPreviewFriendly(
     modifier: Modifier = Modifier

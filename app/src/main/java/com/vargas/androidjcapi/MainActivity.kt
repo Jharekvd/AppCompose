@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -16,6 +17,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.vargas.androidjcapi.Modelos.ApiViewModel
+import com.vargas.androidjcapi.ui.NewsSearchScreen
 import com.vargas.androidjcapi.ui.theme.AndroidJCApiTheme
 
 
@@ -43,7 +46,9 @@ class MainActivity : ComponentActivity() {
                             RegistroScreen(modifier = Modifier, navController = navController)
                         }
                         composable("home") {
-                            HomeScreen(modifier = Modifier, navController = navController)
+                             val viewModel: ApiViewModel by viewModels()
+                            val apikey="4db951246eef4511bd2938354eee7887"
+                            NewsSearchScreen(viewModel, apikey)
                         }
                     }
                 }
