@@ -1,4 +1,4 @@
-package com.vargas.androidjcapi.ui
+package com.vargas.androidjcapi
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -12,21 +12,27 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.vargas.androidjcapi.Modelos.ApiViewModel
-import com.vargas.androidjcapi.RegistroScreen
-import com.vargas.androidjcapi.ui.theme.AndroidJCApiTheme
 
 
+@Composable
+fun HomeScreen() {
+    val viewModel: ApiViewModel = viewModel() // Inicializar ViewModel
+    val apiKey = "4db951246eef4511bd2938354eee7887" // Clave API
+    NewsSearchScreen(viewModel, apiKey)
+}
 @Composable
 fun NewsSearchScreen(viewModel: ApiViewModel, apiKey: String) {
     var query by remember { mutableStateOf("") }
     val news = viewModel.news
-
+    val context = LocalContext.current
+    val activity = context as? MainActivity
+    LaunchedEffect(Unit) {
+        activity?.stopTimeWorker()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,14 +75,3 @@ fun NewsSearchScreen(viewModel: ApiViewModel, apiKey: String) {
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    AndroidJCApiTheme {
-        RegistroScreen(
-            modifier = Modifier.fillMaxSize(),
-            navController = NavController(LocalContext.current)
-        )
-    }
-}

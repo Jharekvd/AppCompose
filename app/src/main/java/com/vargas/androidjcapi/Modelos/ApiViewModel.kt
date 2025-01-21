@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vargas.androidjcapi.network.Article
-import com.vargas.androidjcapi.network.RetrofitServiceFactory
+import com.vargas.androidjcapi.Data.Article
+
+import com.vargas.androidjcapi.network.RetrofitServiceFactory.RetrofitServiceFactory
+
 import kotlinx.coroutines.launch
 
 class ApiViewModel : ViewModel() {

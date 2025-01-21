@@ -1,5 +1,6 @@
 package com.vargas.androidjcapi
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -33,7 +34,12 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     LocalContext.current
-
+    val context = LocalContext.current
+    val activity = context as? MainActivity
+    // Iniciar el worker cuando se entra en la pantalla principal
+    LaunchedEffect(Unit) {
+        activity?.startTimeWorker()
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -46,7 +52,9 @@ fun LoginScreen(
         BotonIniciarSesionConDialogo(navController, email, password, viewModel)
     }
 }
-
+fun mensaje(context: Context) {
+        Toast.makeText(context, "No estas registrado o la contraseña es incorrecta", Toast.LENGTH_SHORT).show();
+}
 @Composable
 fun BotonIniciarSesionConDialogo(
     navController: NavController,
@@ -62,9 +70,9 @@ fun BotonIniciarSesionConDialogo(
             if (email.isNotBlank() && password.isNotBlank()) {
                 viewModel.iniciarSession(email, password, context,
                     onSuccess = { navController.navigate("home") },
-                    onFailure = { /* Manejo de error si es necesario */ })
-            } else {
-                Toast.makeText(context, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
+                    onFailure = { mensaje(context)})
+            }else{
+                Toast.makeText(context, "Por favor rellena todos los campos", Toast.LENGTH_SHORT).show();
             }
         },
         modifier = Modifier.padding(top = 16.dp),

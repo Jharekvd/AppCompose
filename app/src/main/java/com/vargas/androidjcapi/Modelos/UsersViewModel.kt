@@ -23,7 +23,7 @@ class UsersViewModel : ViewModel() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
-                actualizarDatosAcceso(userId, context, onSuccess, onFailure)
+                ActualizarDatosAcceso(userId, context, onSuccess, onFailure)
             } else {
                 _showDialog.value = true
                 onFailure()
@@ -43,7 +43,7 @@ class UsersViewModel : ViewModel() {
         }
     }
 
-    private fun actualizarDatosAcceso(userId: String, context: Context, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    private fun ActualizarDatosAcceso(userId: String, context: Context, onSuccess: () -> Unit, onFailure: () -> Unit) {
         val userRef = firestore.collection("usuarios").document(userId)
 
         firestore.runTransaction { transaction ->
