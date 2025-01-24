@@ -1,6 +1,9 @@
 package com.vargas.androidjcapi.Screens
 
+import android.annotation.SuppressLint
+import com.vargas.androidjcapi.R
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,8 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,6 +41,8 @@ import com.vargas.androidjcapi.Modelos.UsersViewModel
 
 
 // Definición de la pantalla de registro
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun RegistroScreen(
     modifier: Modifier = Modifier,  // Parámetro para el modificador, que permite personalizar la apariencia
@@ -45,49 +55,71 @@ fun RegistroScreen(
     var password by remember { mutableStateOf("") }  // Contraseña
     var repeatPassword by remember { mutableStateOf("") }  // Repetir contraseña
     val context = LocalContext.current  // Obtiene el contexto actual de la aplicación
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,// Centra el contenido verticalmente
-        horizontalAlignment = Alignment.CenterHorizontally// Centra el contenido horizontalmente
-    ) {
-        //Este it es para que el usuario permitiendole cambiar el valor
-        NombreField(nombre) { nombre = it }
-        Spacer(modifier = Modifier.height(8.dp))
-        EmailField(email) { email = it }
-        Spacer(modifier = Modifier.height(8.dp))
-        PasswordField(password) { password = it }
-        Spacer(modifier = Modifier.height(8.dp))
-        RepeatPasswordField(repeatPassword) { repeatPassword = it }
-        Spacer(modifier = Modifier.height(16.dp))
-        // Botón para realizar el registro
-        ElevatedButton(
-            colors = ButtonDefaults.elevatedButtonColors(containerColor = Color(0xFF6200EE)),
-            onClick = {
-                // Validación de los campos antes de proceder
-                if (validacion(nombre, email, password, repeatPassword)) {
-                    // Si la validación es exitosa, se llama al ViewModel para registrar al usuario
-                    viewModel.registrarDatos(nombre, email, password, context,
-                        onSuccess = { navController.navigate("login") }, // Redirige a la pantalla de login si el registro es exitoso
-                        onFailure = {
-                            Toast.makeText(
-                                context,
-                                "Error en el registro",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }) // Muestra un mensaje si falla
-                } else {
-                    // Si la validación falla, muestra un mensaje de error
-                    Toast.makeText(context, "Completa los campos correctamente", Toast.LENGTH_SHORT)
-                        .show()
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text(text = "Registro") },
+            modifier = Modifier.fillMaxWidth(),
+            actions = {
+                IconButton(onClick = {
+                    navController.navigate("login")
+                }){
+                    Image(
+                        painter = painterResource(R.drawable.baseline_login_24),
+                        contentDescription = "Login",
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
-            },
-            modifier = Modifier.fillMaxWidth() // Hace que el botón ocupe todo el ancho disponible
+            }
+        )
+    }) { paddingValues ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,// Centra el contenido verticalmente
+            horizontalAlignment = Alignment.CenterHorizontally// Centra el contenido horizontalmente
         ) {
-            Text(text = "Registrar", color = Color.White)// Texto dentro del botón
+            //Este it es para que el usuario permitiendole cambiar el valor
+            NombreField(nombre) { nombre = it }
+            Spacer(modifier = Modifier.height(8.dp))
+            EmailField(email) { email = it }
+            Spacer(modifier = Modifier.height(8.dp))
+            PasswordField(password) { password = it }
+            Spacer(modifier = Modifier.height(8.dp))
+            RepeatPasswordField(repeatPassword) { repeatPassword = it }
+            Spacer(modifier = Modifier.height(16.dp))
+            // Botón para realizar el registro
+            ElevatedButton(
+                colors = ButtonDefaults.elevatedButtonColors(containerColor = Color(0xFF6200EE)),
+                onClick = {
+                    // Validación de los campos antes de proceder
+                    if (validacion(nombre, email, password, repeatPassword)) {
+                        // Si la validación es exitosa, se llama al ViewModel para registrar al usuario
+                        viewModel.registrarDatos(nombre, email, password, context,
+                            onSuccess = { navController.navigate("login") }, // Redirige a la pantalla de login si el registro es exitoso
+                            onFailure = {
+                                Toast.makeText(
+                                    context,
+                                    "Error en el registro",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }) // Muestra un mensaje si falla
+                    } else {
+                        // Si la validación falla, muestra un mensaje de error
+                        Toast.makeText(
+                            context,
+                            "Completa los campos correctamente",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth() // Hace que el botón ocupe todo el ancho disponible
+            ) {
+                Text(text = "Registrar", color = Color.White)// Texto dentro del botón
+            }
         }
+
     }
 }
 
@@ -120,6 +152,7 @@ fun EmailField(value: String, onValueChange: (String) -> Unit) {
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
     )
 }
+
 // Composable para mostrar el campo de contraseña
 @Composable
 fun PasswordField(value: String, onValueChange: (String) -> Unit) {
@@ -131,6 +164,7 @@ fun PasswordField(value: String, onValueChange: (String) -> Unit) {
         visualTransformation = PasswordVisualTransformation()  // Transforma el texto para ocultar la contraseña
     )
 }
+
 // Composable para mostrar el campo para repetir la contraseña
 @Composable
 fun RepeatPasswordField(value: String, onValueChange: (String) -> Unit) {
@@ -142,6 +176,7 @@ fun RepeatPasswordField(value: String, onValueChange: (String) -> Unit) {
         visualTransformation = PasswordVisualTransformation()
     )
 }
+
 // Vista previa de la pantalla de registro para ver cómo se verá en la interfaz
 //El que vale
 @Preview(showBackground = false, showSystemUi = false)

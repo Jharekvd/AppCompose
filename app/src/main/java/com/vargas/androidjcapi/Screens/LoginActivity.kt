@@ -1,9 +1,12 @@
 package com.vargas.androidjcapi.Screens
-
+import com.vargas.androidjcapi.R
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -11,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,7 +26,8 @@ import com.vargas.androidjcapi.MainActivity
 import com.vargas.androidjcapi.Modelos.UsersViewModel
 import com.vargas.androidjcapi.ui.theme.AndroidJCApiTheme
 
-
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -38,17 +43,36 @@ fun LoginScreen(
     LaunchedEffect(Unit) {
         activity?.startTimeWorker()// Inicia el worker para mostrar notificaciones
     }
-    // Diseño de la pantalla de login
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,  // Centra los elementos verticalmente
-        horizontalAlignment = Alignment.CenterHorizontally  // Centra los elementos horizontalmente
-    ) {
-        EntradaEmail(email) { email = it }  // Componente de entrada para el email
-        EntradaPassWord(password) { password = it }  // Componente de entrada para la contraseña
-        BotonIniciarSesionConDialogo(navController, email, password, viewModel)  // Botón de inicio de sesión
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text(text = "Login" )},
+            modifier = Modifier.fillMaxWidth(),
+            actions = {
+                IconButton(onClick = {
+                    navController.navigate("registro")
+                }) {
+                    Image(
+                        painter = painterResource(R.drawable.icons8_a_adir_usuario_masculino_100__1_),
+                        contentDescription = "Registro",
+                        modifier = Modifier.fillMaxSize() // Tamaño del ícono
+                    )
+                }
+            }
+        )
+    }) { paddingValues ->
+        // Diseño de la pantalla de login
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,  // Centra los elementos verticalmente
+            horizontalAlignment = Alignment.CenterHorizontally  // Centra los elementos horizontalmente
+        ) {
+            EntradaEmail(email) { email = it }  // Componente de entrada para el email
+            EntradaPassWord(password) { password = it }  // Componente de entrada para la contraseña
+            BotonIniciarSesionConDialogo(navController, email, password, viewModel)  // Botón de inicio de sesión
+        }
+
     }
 }
 // Función que muestra un mensaje de error
@@ -103,7 +127,7 @@ fun EntradaEmail(email: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
         value = email,
         onValueChange = onValueChange,
-        label = { Text("Nombre") }
+        label = { Text("Email") }
     )
 }
 // Componente para la entrada de contraseña
