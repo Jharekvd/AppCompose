@@ -1,16 +1,23 @@
 # Proyecto de Consulta de Noticias
 
 ## Descripción
-Aplicación que utiliza una API de noticias [News Api](https://newsapi.org/) para obtener y mostrar resultados en tiempo real. Permite a los usuarios autenticarse, gestionar sus preferencias y recibir notificaciones similares a plataformas como YouTube o Gmail.
+Aplicación que utiliza la API de noticias [NewsAPI](https://newsapi.org/) para obtener y mostrar resultados en tiempo real. Permite a los usuarios autenticarse, gestionar sus preferencias y recibir notificaciones similares a plataformas como YouTube o Gmail.
 
 ## Funcionalidades Principales
-- **Consulta de Noticias**: Obtención de noticias en el momento desde la API de NewsAPI.
+- **Consulta de Noticias**: Obtención de noticias en tiempo real desde la API de NewsAPI.
 - **Autenticación con Firebase**: Inicio de sesión y registro de usuarios utilizando Firebase Authentication.
 - **Gestión de Datos en Firestore**: Registro y almacenamiento de información del usuario en Firebase Firestore.
-- **Notificaciones**: Sistema de notificaciones personalizadas para alertar que hagas una consulta cuando entre a la aplicacion.
-- **Carga de Imágenes con Coil**: Uso de la librería Coil para mostrar imágenes de noticias eficientemente.
+- **Notificaciones**: Sistema de notificaciones personalizadas que alerta al usuario para realizar una consulta al ingresar a la aplicación.
+- **Carga de Imágenes con Coil**: Uso de la librería Coil para mostrar imágenes de noticias de manera eficiente.
 - **Uso de Retrofit**: Comunicación con la API mediante Retrofit para realizar solicitudes HTTP.
-- **Multitarea con Hilos**: Implementación de hilos para gestionar procesos en segundo plano y mejorar el rendimiento de la app.
+- **Multitarea con Hilos**: Implementación de hilos para gestionar procesos en segundo plano, como la descarga de noticias y la carga de imágenes, mejorando así el rendimiento de la app.
+
+## Pasos a seguir para usar la aplicación
+1. Iniciar la aplicación.
+2. Registrarse en la aplicación.
+3. Iniciar sesión con el correo y contraseña.
+4. Realizar una consulta en la pantalla de búsqueda.
+5. Salir de la aplicación.
 
 ## Tecnologías Utilizadas
 - **Firebase Authentication**: Para la autenticación de usuarios.
@@ -24,6 +31,7 @@ Aplicación que utiliza una API de noticias [News Api](https://newsapi.org/) par
 1. Proveer una experiencia de usuario fluida y personalizada.
 2. Permitir a los usuarios estar informados con noticias relevantes y actualizadas.
 3. Garantizar la seguridad y la gestión eficiente de datos con Firebase.
+
 ## Enlaces Útiles
 - [NewsAPI](https://newsapi.org/)
 - [Firebase](https://firebase.google.com/)
