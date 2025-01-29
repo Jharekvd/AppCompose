@@ -33,8 +33,14 @@ Aplicación que utiliza la API de noticias [NewsAPI](https://newsapi.org/) para 
 3. Garantizar la seguridad y la gestión eficiente de datos con Firebase.
    
 ## Commits Importantes
-1. **Implementación de Firebase** - [Ver commit]()
-2. **Implementación de MVVM** - [Ver commit]()
+1. **Implementación de Firebase** - [Ver commit](https://github.com/Jharekvd/AppCompose/commit/69d804906f16038a3fb3988b7a4c2e5ef4ee29b7)
+2. **Añadir registro en Firebase** - [Ver commit](https://github.com/Jharekvd/AppCompose/commit/3c3d6f3001f6495bffab5271599f5f74040dda24#diff-7c14638f1d1c7e8258381c3d0d9522cf931c2fcb4658dc23ff701f883201fd80)
+3. **Implementación de  Nav Controller** - [ver commit](https://github.com/Jharekvd/AppCompose/commit/159557cb3df82725b6f3df1308df55152edddd49)
+4. **Organizacion de Codigo MVVM Firebase** - [ver commit](https://github.com/Jharekvd/AppCompose/commit/d0497d449c64b2fdd6df7b2981baa236d04428a4)
+5. **Api Noticias** - [ver commit](https://github.com/Jharekvd/AppCompose/commit/99bcb3c55c498c1686e45f726f8b8a488a1fd465)
+6. **Implementacion de la notificacion** - [ver commit](https://github.com/Jharekvd/AppCompose/commit/0d056004b49d79426f2b380652157ed88fe438db)
+7. **Organizacion de Codigo** - [ver commit](https://github.com/Jharekvd/AppCompose/commit/e50c61c171aaeaf3b9f063bf22c8f93b16ec1fd1)
+8. **Utimos ajustes para la decoracion de las pantallas de registrar, login y consultas** - [ver commit](https://github.com/Jharekvd/AppCompose/commit/eb300ac588e3d24aa9ce677de693622ca57a6115)
 
 ## Enlaces Útiles
 - [NewsAPI](https://newsapi.org/)
