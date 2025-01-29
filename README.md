@@ -3,6 +3,13 @@
 ## Descripción
 Aplicación que utiliza la API de noticias [NewsAPI](https://newsapi.org/) para obtener y mostrar resultados en tiempo real. Permite a los usuarios autenticarse, gestionar sus preferencias y recibir notificaciones similares a plataformas como YouTube o Gmail.
 
+## Pasos a seguir para usar la aplicación
+1. Iniciar la aplicación.
+2. Registrarse en la aplicación.
+3. Iniciar sesión con el correo y contraseña.
+4. Realizar una consulta en la pantalla de búsqueda.
+5. Salir de la aplicación.
+
 ## Funcionalidades Principales
 - **Consulta de Noticias**: Obtención de noticias en tiempo real desde la API de NewsAPI.
 - **Autenticación con Firebase**: Inicio de sesión y registro de usuarios utilizando Firebase Authentication.
@@ -11,13 +18,6 @@ Aplicación que utiliza la API de noticias [NewsAPI](https://newsapi.org/) para 
 - **Carga de Imágenes con Coil**: Uso de la librería Coil para mostrar imágenes de noticias de manera eficiente.
 - **Uso de Retrofit**: Comunicación con la API mediante Retrofit para realizar solicitudes HTTP.
 - **Multitarea con Hilos**: Implementación de hilos para gestionar procesos en segundo plano, como la descarga de noticias y la carga de imágenes, mejorando así el rendimiento de la app.
-
-## Pasos a seguir para usar la aplicación
-1. Iniciar la aplicación.
-2. Registrarse en la aplicación.
-3. Iniciar sesión con el correo y contraseña.
-4. Realizar una consulta en la pantalla de búsqueda.
-5. Salir de la aplicación.
 
 ## Tecnologías Utilizadas
 - **Firebase Authentication**: Para la autenticación de usuarios.
@@ -31,6 +31,10 @@ Aplicación que utiliza la API de noticias [NewsAPI](https://newsapi.org/) para 
 1. Proveer una experiencia de usuario fluida y personalizada.
 2. Permitir a los usuarios estar informados con noticias relevantes y actualizadas.
 3. Garantizar la seguridad y la gestión eficiente de datos con Firebase.
+   
+## Commits Importantes
+1. **Implementación de Firebase** - [Ver commit]()
+2. **Implementación de MVVM** - [Ver commit]()
 
 ## Enlaces Útiles
 - [NewsAPI](https://newsapi.org/)
